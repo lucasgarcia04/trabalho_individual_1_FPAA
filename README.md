@@ -1,76 +1,102 @@
-# Projeto: Multiplicação de Números Grandes com o Algoritmo de Karatsuba
+# Multiplicação de Karatsuba
 
-## Descrição do Projeto
+Este projeto implementa o algoritmo de multiplicação de Karatsuba em Python. O método de Karatsuba é um algoritmo eficiente para multiplicação de números inteiros grandes, reduzindo a complexidade computacional em comparação com a multiplicação tradicional.
 
-Este projeto implementa o **algoritmo de Karatsuba** para multiplicação eficiente de dois números inteiros grandes. O algoritmo de Karatsuba reduz a complexidade da multiplicação tradicional de **O(n²)** para aproximadamente **O(n^log₂3) ≈ O(n^1.585)**, tornando-o mais rápido para números grandes.
+## Como o Algoritmo Funciona
 
-## Lógica do Algoritmo
+O algoritmo de Karatsuba utiliza a seguinte estratégia de divisão e conquista:
 
-O algoritmo de Karatsuba funciona dividindo os números de entrada em duas partes e aplicando multiplicações recursivas. A lógica é baseada na seguinte identidade matemática:
+1. Divide os números de entrada em duas partes.
+2. Realiza três multiplicações recursivas em subproblemas menores.
+3. Combina os resultados e obtem o produto final.
 
-Seja **x** e **y** dois números:
+A implementação segue os seguintes passos:
 
-1. Determina-se **n**, o maior comprimento entre os dois números.
-2. Divide-se **x** e **y** em duas partes:
-   - `x_primeiros` = primeira metade de `x`
-   - `x_ultimos` = última metade de `x`
-   - `y_primeiros` = primeira metade de `y`
-   - `y_ultimos` = última metade de `y`
-3. Calculam-se três multiplicações menores:
-   - `multiplicacao_primeiros = karatsuba(x_primeiros, y_primeiros)`
-   - `multiplcacao_ultimos = karatsuba(x_ultimos, y_ultimos)`
-   - `soma_multiplicacao = karatsuba((x_primeiros + x_ultimos), (y_primeiros + y_ultimos))`
-4. O resultado final é obtido pela fórmula:
-   ```
-   (multiplicacao_primeiros * 10^(2*m)) + ((soma_multiplicacao - multiplicacao_primeiros - multiplcacao_ultimos) * 10^m) + multiplcacao_ultimos
-   ```
+1. **Caso base:** 
+
+  if x < 10 or y < 10:
+        return x * y
+
+Se um dos números for menor que 10, retorna a multiplicação simples.
+
+2. **Determinação do ponto de divisão:** 
+
+   n = max(len(str(x)), len(str(y)))
+    m = n // 2
+
+O tamanho do maior número é calculado e dividido ao meio.
+
+3. **Divisão dos números:** 
+
+    x_primeiros = x // 10**m
+    x_ultimos = x % 10**m
+    y_primeiros = y // 10**m
+    y_ultimos = y % 10**m
+
+Os números são separados em duas partes: "primeiros dígitos" e "últimos dígitos".
+
+4. **Recursão:** 
+
+   multiplicacao_ultimos = karatsuba(x_ultimos, y_ultimos)
+   soma_multiplicacao = karatsuba((x_ultimos + x_primeiros), (y_ultimos + y_primeiros))
+   multiplicacao_primeiros = karatsuba(x_primeiros, y_primeiros)
+
+São feitas três chamadas recursivas para multiplicar partes menores dos números.
+
+5. **Combinação dos resultados:** 
+
+   return (multiplicacao_primeiros * 10**(2*m)) + ((soma_multiplicacao - multiplicacao_primeiros - multiplicacao_ultimos) * 10**m) + multiplicacao_ultimos
+
+Os produtos são combinados para obter o resultado final.
+
 
 ## Como Executar o Projeto
 
-### Pré-requisitos
+1. O projeto foi realizado em Python na versão 3.13.2.
+2. Baixe ou clone este repositório.
+3. Execute o programa.
+4. Insira os números como argumentos de linha de comando e visualize o resultado.
 
-- Python 3.x instalado
+## Análise da Complexidade Ciclomática
 
-### Passos para execução:
+A complexidade ciclomática mede a quantidade de caminhos independentes no código e pode ser calculada pela fórmula:
 
-1. Clone o repositório:
-   ```bash
-   git clone https://github.com/seu-usuario/karatsuba-multiplication.git
-   ```
-2. Acesse o diretório do projeto:
-   ```bash
-   cd karatsuba-multiplication
-   ```
-3. Execute o script:
-   ```bash
-   python main.py
-   ```
-4. Insira os números quando solicitado.
-
-## Análise Técnica
-
-### Complexidade Assintótica
-
-- **Melhor Caso**: O(n) (se um dos números for de um dígito)
-- **Caso Médio & Pior Caso**: O(n^log₂3) ≈ O(n^1.585)
-
-### Complexidade Ciclomática
-
-Para calcular a **complexidade ciclomática**, usamos a fórmula:
-
-**M = E - N + 2P**
+\[ M = E - N + 2P \]
 
 Onde:
+- \( E \) é o número de arestas no grafo de fluxo do código,
+- \( N \) é o número de nós,
+- \( P \) é o número de componentes conexos (para um único programa, \( P = 1 \)).
 
-- **E**: Número de arestas
-- **N**: Número de nós
-- **P**: Número de componentes conexos (para um programa simples, P=1)
+Nós (N): 8
 
-O fluxo do código contém chamadas recursivas e estruturas condicionais, resultando em uma complexidade ciclomática relativamente baixa.
+Entrada na função
+Decisão if x < 10 or y < 10
+Retorno direto se verdadeiro
+Cálculo de n e m
+Separação de x e y
+Três chamadas recursivas
+Operações matemáticas finais
+Retorno do resultado
 
----
+Arestas (E): 10
 
-Autor: [Seu Nome]
+Fluxo de execução normal + chamadas recursivas + retorno.
 
-📌 **Repositório:** [GitHub Link](https://github.com/seu-usuario/karatsuba-multiplication)
+M=10−8+2(1)
+M=4
+
+## Análise da Complexidade Assintótica
+
+O algoritmo de Karatsuba possui complexidade **O(n^{log_2 3})**, pois divide o problema em três subproblemas de tamanho \( n/2 \), diferentemente da multiplicação tradicional.
+
+### Casos de Complexidade:
+- **Melhor caso:** **O(n)**: Quando os dois números possuem apenas um digito.
+- **Caso médio:**  **O(n^{log_2 3})**
+- **Pior caso:**  **O(n^{log_2 3})**
+
+## Conclusão
+
+O algoritmo de Karatsuba é eficiente para multiplicação de números grandes e tem aplicação em computação de alta precisão. A implementação recursiva reduz significativamente a quantidade de operações em comparação com a multiplicação tradicional.
+
 
