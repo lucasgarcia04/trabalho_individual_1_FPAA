@@ -10,45 +10,51 @@ O algoritmo de Karatsuba utiliza a seguinte estratégia de divisão e conquista:
 2. Realiza três multiplicações recursivas em subproblemas menores.
 3. Combina os resultados e obtem o produto final.
 
-A implementação segue os seguintes passos:
+## A implementação segue os seguintes passos:
 
-1. **Caso base:** 
+### 1. Caso base
+Se um dos números for menor que 10, a multiplicação é feita diretamente:
 
-  if x < 10 or y < 10:
-        return x * y
+```python
+if x < 10 or y < 10:
+    return x * y
+```
 
-Se um dos números for menor que 10, retorna a multiplicação simples.
+### 2. Determinação do ponto de divisão
+Calculamos o tamanho do maior número e dividimos ao meio:
 
-2. **Determinação do ponto de divisão:** 
+```python
+n = max(len(str(x)), len(str(y)))
+m = n // 2
+```
 
-   n = max(len(str(x)), len(str(y)))
-    m = n // 2
-
-O tamanho do maior número é calculado e dividido ao meio.
-
-3. **Divisão dos números:** 
-
-    x_primeiros = x // 10**m
-    x_ultimos = x % 10**m
-    y_primeiros = y // 10**m
-    y_ultimos = y % 10**m
-
+### 3. Divisão dos números
 Os números são separados em duas partes: "primeiros dígitos" e "últimos dígitos".
 
-4. **Recursão:** 
+```python
+x_primeiros = x // 10**m
+x_ultimos = x % 10**m
+y_primeiros = y // 10**m
+y_ultimos = y % 10**m
+```
 
-   multiplicacao_ultimos = karatsuba(x_ultimos, y_ultimos)
-   soma_multiplicacao = karatsuba((x_ultimos + x_primeiros), (y_ultimos + y_primeiros))
-   multiplicacao_primeiros = karatsuba(x_primeiros, y_primeiros)
+### 4. Recursão
+Realizamos três chamadas recursivas para multiplicar partes menores dos números.
 
-São feitas três chamadas recursivas para multiplicar partes menores dos números.
+```python
+multiplicacao_ultimos = karatsuba(x_ultimos, y_ultimos)
+soma_multiplicacao = karatsuba((x_ultimos + x_primeiros), (y_ultimos + y_primeiros))
+multiplicacao_primeiros = karatsuba(x_primeiros, y_primeiros)
+```
 
-5. **Combinação dos resultados:** 
-
-   return (multiplicacao_primeiros * 10**(2*m)) + ((soma_multiplicacao - multiplicacao_primeiros - multiplicacao_ultimos) * 10**m) + multiplicacao_ultimos
-
+### 5. Combinação dos resultados
 Os produtos são combinados para obter o resultado final.
 
+```python
+return (multiplicacao_primeiros * 10**(2*m)) + \
+       ((soma_multiplicacao - multiplicacao_primeiros - multiplicacao_ultimos) * 10**m) + \
+       multiplicacao_ultimos
+```
 
 ## Como Executar o Projeto
 
@@ -64,27 +70,29 @@ A complexidade ciclomática mede a quantidade de caminhos independentes no códi
 \[ M = E - N + 2P \]
 
 Onde:
-- \( E \) é o número de arestas no grafo de fluxo do código,
-- \( N \) é o número de nós,
-- \( P \) é o número de componentes conexos (para um único programa, \( P = 1 \)).
+- **E** é o número de arestas no grafo de fluxo do código,
+- **N** é o número de nós,
+- **P** é o número de componentes conexos (para um único programa, **P = 1**).
 
-Nós (N): 8
+### Contagem de Nós e Arestas
 
-Entrada na função
-Decisão if x < 10 or y < 10
-Retorno direto se verdadeiro
-Cálculo de n e m
-Separação de x e y
-Três chamadas recursivas
-Operações matemáticas finais
-Retorno do resultado
+- **Nós (N) = 8**
+  - Entrada na função
+  - Decisão `if x < 10 or y < 10`
+  - Retorno direto se verdadeiro
+  - Cálculo de `n` e `m`
+  - Separação de `x` e `y`
+  - Três chamadas recursivas
+  - Operações matemáticas finais
+  - Retorno do resultado
 
-Arestas (E): 10
+- **Arestas (E) = 10**
+  - Fluxo de execução normal + chamadas recursivas + retorno
 
-Fluxo de execução normal + chamadas recursivas + retorno.
+### Cálculo da Complexidade
 
-M=10−8+2(1)
-M=4
+\[ M = 10 - 8 + 2(1) \]
+\[ M = 4 \]
 
 ## Análise da Complexidade Assintótica
 
