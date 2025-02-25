@@ -2,6 +2,16 @@
 
 Este projeto implementa o algoritmo de multiplicação de Karatsuba em Python. O método de Karatsuba é um algoritmo eficiente para multiplicação de números inteiros grandes, reduzindo a complexidade computacional em comparação com a multiplicação tradicional.
 
+## Estrutura
+
+1. main.py
+
+Arquivo com a implementação do método de Karatsuba.
+
+2. Readme.md
+
+Arquivo explicando como o código funciona e como executa-lo.
+
 ## Como o Algoritmo Funciona
 
 O algoritmo de Karatsuba utiliza a seguinte estratégia de divisão e conquista:
@@ -24,36 +34,36 @@ if x < 10 or y < 10:
 Calculamos o tamanho do maior número e dividimos ao meio:
 
 ```python
-n = max(len(str(x)), len(str(y)))
-m = n // 2
+ numero = max(len(str(x)), len(str(y)))
+maior = numero // 2
 ```
 
 ### 3. Divisão dos números
 Os números são separados em duas partes: "primeiros dígitos" e "últimos dígitos".
 
 ```python
-x_primeiros = x // 10**m
-x_ultimos = x % 10**m
-y_primeiros = y // 10**m
-y_ultimos = y % 10**m
+ x_primeiros = x // 10**maior
+ x_ultimos = x % 10**maior
+ y_primeiros = y // 10**maior
+ y_ultimos = y % 10**maior
 ```
 
 ### 4. Recursão
 Realizamos três chamadas recursivas para multiplicar partes menores dos números.
 
 ```python
-multiplicacao_ultimos = karatsuba(x_ultimos, y_ultimos)
-soma_multiplicacao = karatsuba((x_ultimos + x_primeiros), (y_ultimos + y_primeiros))
-multiplicacao_primeiros = karatsuba(x_primeiros, y_primeiros)
+ multiplcacao_ultimos = karatsuba(x_ultimos, y_ultimos)
+ somas = karatsuba((x_ultimos + x_primeiros), (y_ultimos + y_primeiros))
+ multiplicacao_primeiros = karatsuba(x_primeiros, y_primeiros)
 ```
 
 ### 5. Combinação dos resultados
 Os produtos são combinados para obter o resultado final.
 
 ```python
-return (multiplicacao_primeiros * 10**(2*m)) + \
-       ((soma_multiplicacao - multiplicacao_primeiros - multiplicacao_ultimos) * 10**m) + \
-       multiplicacao_ultimos
+return (multiplicacao_primeiros * 10**(2*maior)) /
++ ((somas - multiplicacao_primeiros - multiplcacao_ultimos) * 10**maior) / 
++ multiplcacao_ultimos
 ```
 
 ## Como Executar o Projeto
