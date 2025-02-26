@@ -1,6 +1,6 @@
 # Multiplicação de Karatsuba
 
-Este projeto implementa o algoritmo de multiplicação de Karatsuba em Python. O método de Karatsuba é um algoritmo eficiente para multiplicação de números inteiros grandes, reduzindo a complexidade computacional em comparação com a multiplicação tradicional.
+Este projeto implementa o algoritmo de multiplicação de Karatsuba em Python. O método de Karatsuba é um algoritmo eficiente para multiplicação de números inteiros grandes, reduzindo a complexidade em comparação com a multiplicação tradicional. Este projeto foi realizado para a diciplina de Fundamentos de projeto e análise de algoritimos, na PUC MINAS.
 
 ## Estrutura
 
@@ -11,6 +11,10 @@ Arquivo com a implementação do método de Karatsuba.
 2. Readme.md
 
 Arquivo explicando como o código funciona e como executa-lo.
+
+3. grafo.png
+
+Grafo de fluxo do programa.
 
 ## Como o Algoritmo Funciona
 
@@ -34,36 +38,34 @@ if x < 10 or y < 10:
 Calculamos o tamanho do maior número e dividimos ao meio:
 
 ```python
- numero = max(len(str(x)), len(str(y)))
-maior = numero // 2
+  z = max(len(str(x)), len(str(y)))
+  m = z // 2
 ```
 
 ### 3. Divisão dos números
 Os números são separados em duas partes: "primeiros dígitos" e "últimos dígitos".
 
 ```python
- x_primeiros = x // 10**maior
- x_ultimos = x % 10**maior
- y_primeiros = y // 10**maior
- y_ultimos = y % 10**maior
+ x_primeiros = x // 10**m
+ x_ultimos = x % 10**m
+ y_primeiros = y // 10**m
+ y_ultimos = y % 10**m
 ```
 
 ### 4. Recursão
 Realizamos três chamadas recursivas para multiplicar partes menores dos números.
 
 ```python
- multiplcacao_ultimos = karatsuba(x_ultimos, y_ultimos)
- somas = karatsuba((x_ultimos + x_primeiros), (y_ultimos + y_primeiros))
- multiplicacao_primeiros = karatsuba(x_primeiros, y_primeiros)
+  a = karatsuba(x_ultimos, y_ultimos)
+  b = karatsuba((x_ultimos + x_primeiros), (y_ultimos + y_primeiros))
+  c = karatsuba(x_primeiros, y_primeiros)
 ```
 
 ### 5. Combinação dos resultados
 Os produtos são combinados para obter o resultado final.
 
 ```python
-return (multiplicacao_primeiros * 10**(2*maior)) /
-+ ((somas - multiplicacao_primeiros - multiplcacao_ultimos) * 10**maior) / 
-+ multiplcacao_ultimos
+  return (c * 10**(2*m)) + ((b - c - a) * 10**m) + a
 ```
 
 ## Como Executar o Projeto
@@ -86,30 +88,54 @@ Onde:
 
 ### Contagem de Nós e Arestas
 
-- **Nós (N) = 8**
-  - Entrada na função
-  - Decisão `if x < 10 or y < 10`
-  - Retorno direto se verdadeiro
-  - Cálculo de `n` e `m`
-  - Separação de `x` e `y`
-  - Três chamadas recursivas
-  - Operações matemáticas finais
-  - Retorno do resultado
+- **Nós (N) = 13**
+  1- Entrada na função
+  2- Decisão `if x < 10 or y < 10`
+  3- Retorno direto se verdadeiro
+  4- Cálculo de `z`
+  5- Cálculo de `m`
+  6- Separação de `x_primeiros`
+  7- Separação de `x_utimos`
+  8- Separação de `y_primeiros`
+  9- Separação de `y_primeiros`
+  10- Cálculo de `a`
+  11- Cálculo de `b`
+  12- Cálculo de `c`
+  13- Retorno da operação matematica final
 
-- **Arestas (E) = 10**
-  - Fluxo de execução normal + chamadas recursivas + retorno
+- **Arestas (E) = 15**
+  1- Entrada da função para o if
+  2- if para a multiplicação se for verdadeiro
+  3- if para calculo de z se for falso
+  4- z para calculo de m
+  5- m para calculo de x_primeiros
+  6- x_primeiros para cálculo de x_ultimos
+  7- x_ultimos para cálculo de y_primeiros
+  8- y_primeiros para cálculo de y_ultimos
+  9- y_últimos para calculo de a
+  10- Cálculo de a para a Entrada
+  11- Cálculo de a para b
+  12- Cálculo de b para Entrada
+  13- Cálculo de b para c
+  14- Cálculo de c para Entrada
+  15- Cálculo de c para retorno da operação matemática final
 
 ### Cálculo da Complexidade
 
-\[ M = 10 - 8 + 2(1) \]
+\[ M = 15 - 13 + 2(1) \]
+
 \[ M = 4 \]
+
+### Grafo de Fluxo
+
+![Alt text](grafo.png)
 
 ## Análise da Complexidade Assintótica
 
 O algoritmo de Karatsuba possui complexidade **O(n^{log_2 3})**, pois divide o problema em três subproblemas de tamanho \( n/2 \), diferentemente da multiplicação tradicional.
 
 ### Casos de Complexidade:
-- **Melhor caso:** **O(n)**: Quando os dois números possuem apenas um digito.
+- **Melhor caso:** **O(1)**: Quando os números possuem apenas um digito.
 - **Caso médio:**  **O(n^{log_2 3})**
 - **Pior caso:**  **O(n^{log_2 3})**
 
